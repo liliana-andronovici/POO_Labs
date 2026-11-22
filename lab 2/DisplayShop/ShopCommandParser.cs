@@ -2,7 +2,7 @@ using System.Globalization;
 
 namespace Lab2;
 
-public sealed record ShopCommand(string Name, IReadOnlyList<string> Arguments, int LineNumber);
+public sealed record ShopCommand(string Name, IReadOnlyList<string> Arguments);
 
 public static class ShopCommandParser
 {
@@ -40,12 +40,6 @@ public static class ShopCommandParser
             error = $"{parts[0]} expects {expectedArguments} argument(s), but received {arguments.Length}.";
             return false;
         }
-        if (arguments.Any(string.IsNullOrWhiteSpace))
-        {
-            error = "Arguments cannot be empty.";
-            return false;
-        }
-
         if (name == "DISPLAY")
         {
             for (int i = 1; i <= 3; i++)
@@ -60,7 +54,7 @@ public static class ShopCommandParser
             }
         }
 
-        command = new ShopCommand(name, arguments, line.Number);
+        command = new ShopCommand(name, arguments);
         return true;
     }
 }
